@@ -1,17 +1,21 @@
 use dotenvy;
-use serenity::model::prelude::*;
-use serenity::prelude::*;
-use serenity::Client;
-struct Handler;
 static token: String = dotenvy::var("token").unwrap();
-static client: Client = Client::builder(token, GatewayIntents::default()).event_handler(Handler).await?;
-client.start().await()?;
+async fn main() {
+    /*let options = poise::FrameworkOptions {
+        commands: vec![register(), add()],
+        prefix_options: poise::PrefixFrameworkOptions {
+            prefix: Some("::".to_string()),
+            ..Default::default()
+        },
+        on_error: |err| Box::pin(on_error(err)),
+        ..Default::default()
+    };*/
 
-#[serenity::async_trait]
-impl EventHandler for Handler {
-    async fn message(&self, context: Context, msg: Message) {
-        if msg.content == "!ping" {
-            let _ = msg.channel_id.say(&context, "Pong!");
-        }
-    }
+    poise::Framework::build()
+        .token(token)
+        //.options(options)
+        .user_data_setup(|_, _, _| Box::pin(async { Ok(()) }))
+        .run()
+        .await
+        .unwrap();
 }
