@@ -3,11 +3,9 @@ use serenity::model::prelude::*;
 use serenity::prelude::*;
 use serenity::Client;
 struct Handler;
-fn main() {
-  let token = dotenvy::var("token").unwrap();
-  let mut client = Client::builder(token, GatewayIntents::default()).event_handler(Handler).await?;
-  client.start().await()?;
-}
+static token = dotenvy::var("token").unwrap();
+static client = Client::builder(token, GatewayIntents::default()).event_handler(Handler).await?;
+client.start().await()?;
 
 #[serenity::async_trait]
 impl EventHandler for Handler {
