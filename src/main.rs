@@ -3,7 +3,6 @@ use serenity::model::prelude::*;
 use serenity::prelude::*;
 use serenity::Client;
 struct Handler;
-dotenv().ok();
 let token = match dotenvy::var("token") {
   Ok(val) => val
 };
