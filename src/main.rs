@@ -1,11 +1,10 @@
-use dotenvy::dotenv;
-use std::env;
+use dotenvy;
 use serenity::model::prelude::*;
 use serenity::prelude::*;
 use serenity::Client;
 struct Handler;
 dotenv().ok();
-let token = match env::var("token") {
+let token = match dotenvy::var("token") {
   Ok(val) => val
 };
 let mut client = Client::builder(token, GatewayIntents::default()).event_handler(Handler).await?;
