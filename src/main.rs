@@ -3,9 +3,7 @@ use serenity::model::prelude::*;
 use serenity::prelude::*;
 use serenity::Client;
 struct Handler;
-let token = match dotenvy::var("token") {
-  Ok(val) => val
-};
+let token = dotenvy::var("token").unwrap();
 let mut client = Client::builder(token, GatewayIntents::default()).event_handler(Handler).await?;
 
 #[serenity::async_trait]
