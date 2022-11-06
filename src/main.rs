@@ -1,6 +1,5 @@
-use dotenv::dotenv;
+use dotenvy::dotenv;
 use std::env;
-use std::process;
 use serenity::model::prelude::*;
 use serenity::prelude::*;
 use serenity::Client;
