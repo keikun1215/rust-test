@@ -4,7 +4,7 @@ use serenity::prelude::*;
 use serenity::Client;
 struct Handler;
 static token = dotenvy::var("token").unwrap();
-static client = Client::builder(token, GatewayIntents::default()).event_handler(Handler).await?;
+static client: Client = Client::builder(token, GatewayIntents::default()).event_handler(Handler).await?;
 client.start().await()?;
 
 #[serenity::async_trait]
