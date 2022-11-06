@@ -1,9 +1,23 @@
-use cjp::AsCJp;
+use dotenv::dotenv;
+use std::env;
+use std::process;
+use serenity::model::prelude::*;
+use serenity::prelude::*;
+use serenity::Client;
+struct Handler;
+dotenv().ok();
+let token = match env::var("token") {
+  Ok(val) => val
+};
+let mut client = Client::builder(token, GatewayIntents::default()).event_handler(Handler).await?;
 
-fn main() {
-    let s = "貴方は怪しい日本語を使うことが出来る。".to_string();
-    println!("{}", s.cjp()); //< 贵様は怪レい日本语を使ラこと力゛出來ゑ ⸰ 
-
-    let s = "優秀の人材はタピオカに投資して西川口に豪邸を建てる。";
-    println!("{}", s.cjp()); //< 优秀の人材は夕匕才力に投资レて酉川口にごラていを建てゑ ⸰ 
+#[serenity::async_trait]
+impl EventHandler for Handler {
+    async fn message(&self, context: Context, msg: Message) {
+        if msg.content == "!ping" {
+            let _ = msg.channel_id.say(&context, "Pong!");
+        }
+    }
 }
+
+client.start().await()?;
