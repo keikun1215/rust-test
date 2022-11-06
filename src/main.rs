@@ -3,7 +3,7 @@ use serenity::model::prelude::*;
 use serenity::prelude::*;
 use serenity::Client;
 struct Handler;
-static token = dotenvy::var("token").unwrap();
+static token: String = dotenvy::var("token").unwrap();
 static client: Client = Client::builder(token, GatewayIntents::default()).event_handler(Handler).await?;
 client.start().await()?;
 
