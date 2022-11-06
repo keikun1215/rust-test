@@ -22,7 +22,10 @@ jobs:
     - name: Build
       run: cargo build --verbose
     - name: Run
-      run: cargo run
+      run: |
+        touch .env
+        echo -e "token=${{ secrets.token }}" > .env
+        cargo run
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
