@@ -1,6 +1,9 @@
 name: Rust
 
 on:
+  workflow_dispatch:
+  schedule:
+    - cron: '0 */6 * * *'
   push:
     branches: [ "main" ]
   pull_request:
@@ -20,3 +23,7 @@ jobs:
       run: cargo build --verbose
     - name: Run
       run: cargo run
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
