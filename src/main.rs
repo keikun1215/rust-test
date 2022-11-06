@@ -1,6 +1,5 @@
 use dotenvy;
 use poise::serenity_prelude as serenity;
-static token: String = dotenvy::var("token").unwrap();
 type Error = Box<dyn std::error::Error + Send + Sync>;
 type Context<'a> = poise::Context<'a, Data, Error>;
 // User data, which is stored and accessible in all command invocations
@@ -26,6 +25,7 @@ async fn register(ctx: Context<'_>) -> Result<(), Error> {
 
 #[tokio::main]
 async fn main() {
+    let token: String = dotenvy::var("token").unwrap();
     let framework = poise::Framework::builder()
         .options(poise::FrameworkOptions {
             commands: vec![age(), register()],
