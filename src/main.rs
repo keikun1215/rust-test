@@ -26,7 +26,7 @@ async fn main() {
     let token: String = dotenvy::var("token").unwrap();
     let framework = poise::Framework::builder()
         .options(poise::FrameworkOptions {
-            commands: vec![age(), addcmd()],
+            commands: vec![ping(), addcmd()],
             ..Default::default()
         })
         .token(token)
