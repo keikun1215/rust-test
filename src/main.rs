@@ -7,18 +7,16 @@ struct Data {}
 
 /// Displays your or another user's account creation date
 #[poise::command(slash_command, prefix_command)]
-async fn age(
+async fn ping(
     ctx: Context<'_>,
-    #[description = "Selected user"] user: Option<serenity::User>,
 ) -> Result<(), Error> {
-    let u = user.as_ref().unwrap_or_else(|| ctx.author());
-    let response = format!("{}'s account was created at {}", u.name, u.created_at());
+    let response = format!("🏓 **Pong!**\nping: {}ms", serenity::gateway::Shard::latency());
     ctx.say(response).await?;
     Ok(())
 }
 
 #[poise::command(prefix_command)]
-async fn register(ctx: Context<'_>) -> Result<(), Error> {
+async fn addcmd(ctx: Context<'_>) -> Result<(), Error> {
     poise::builtins::register_application_commands_buttons(ctx).await?;
     Ok(())
 }
@@ -28,7 +26,7 @@ async fn main() {
     let token: String = dotenvy::var("token").unwrap();
     let framework = poise::Framework::builder()
         .options(poise::FrameworkOptions {
-            commands: vec![age(), register()],
+            commands: vec![age(), addcmd()],
             ..Default::default()
         })
         .token(token)
