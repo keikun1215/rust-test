@@ -7,11 +7,16 @@ struct Data {}
 
 /// Displays your or another user's account creation date
 #[poise::command(slash_command, prefix_command)]
-async fn ping(
+async fn test(
     ctx: Context<'_>,
 ) -> Result<(), Error> {
-    let response = format!("🏓 **Pong!**\nping: {}ms", serenity::gateway::Shard::latency());
-    ctx.say(response).await?;
+    let mut img = image::RgbImage::new(512, 512);
+    for (x, y, pixel) in img.enumerate_pixels_mut() {
+        let r = (0.3 * x as f32) as u8;
+        let b = (0.3 * y as f32) as u8;
+        *pixel = image::Rgb([r, 0, b]);
+    }
+    ctx.send_files(img).await?;
     Ok(())
 }
 
