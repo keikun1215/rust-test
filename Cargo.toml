@@ -6,5 +6,5 @@ edition = "2021"
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 [dependencies]
 dotenvy = "0.15.6"
-poise = { version = "*", features = ["gateway"] }
+poise = { version = "0.4.1", features = ["gateway"] }
 tokio = { version = "*", features = ["macros", "rt-multi-thread"] }
