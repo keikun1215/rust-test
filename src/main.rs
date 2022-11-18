@@ -2,6 +2,7 @@ use dotenvy;
 use std::sync::Arc;
 use tokio::sync::Mutex;
 use poise::serenity_prelude as serenity;
+use serenity::http;
 type Error = Box<dyn std::error::Error + Send + Sync>;
 type Context<'a> = poise::Context<'a, Data, Error>;
 // User data, which is stored and accessible in all command invocations
