@@ -1,5 +1,8 @@
 use dotenvy;
+use std::sync::Arc;
+use tokio::sync::Mutex;
 use poise::serenity_prelude as serenity;
+use serenity::gateway::Shard;
 type Error = Box<dyn std::error::Error + Send + Sync>;
 type Context<'a> = poise::Context<'a, Data, Error>;
 // User data, which is stored and accessible in all command invocations
@@ -7,16 +10,12 @@ struct Data {}
 
 /// Displays your or another user's account creation date
 #[poise::command(slash_command, prefix_command)]
-async fn test(
+async fn ping(
     ctx: Context<'_>,
 ) -> Result<(), Error> {
-    let mut img = image::RgbImage::new(512, 512);
-    for (x, y, pixel) in img.enumerate_pixels_mut() {
-        let r = (0.3 * x as f32) as u8;
-        let b = (0.3 * y as f32) as u8;
-        *pixel = image::Rgb([r, 0, b]);
-    }
-    ctx.send_files(img).await?;
+    let gateway = Arc::new(Mutex::new(http.get_gateway().await?.url));
+    let png = gateway.latency().to_string()
+    ctx.say(png).await?;
     Ok(())
 }
 
