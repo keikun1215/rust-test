@@ -13,7 +13,7 @@ struct Data {}
 async fn ping(
     ctx: Context<'_>,
 ) -> Result<(), Error> {
-    let gateway = Arc::new(Mutex::new(http::get_gateway().await?.url));
+    let gateway = Arc::new(Mutex::new(serenity::http::client::Http.get_gateway().await?.url));
     let png = gateway.latency().to_string();
     ctx.say(png).await?;
     Ok(())
