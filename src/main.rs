@@ -5,7 +5,7 @@ struct Data {}
 type Error = Box<dyn std::error::Error + Send + Sync>;
 type Context<'a> = poise::Context<'a, Data, Error>;
 // User data, which is stored and accessible in all command invocations
-/// Displays your or another user's account creation date
+/// Displays your or another user's account creation date/
 static fw: Framework;
 #[poise::command(slash_command, prefix_command)]
 async fn ping(
