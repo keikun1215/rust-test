@@ -12,8 +12,8 @@ type Context<'a> = poise::Context<'a, Data, Error>;
 async fn ping(
     ctx: Context<'_>,
 ) -> Result<(), Error> {
-    let shmp = *ctx.framework().shard_manager.lock();
-    let runner = shmp.runners.get(ctx.discord().shard_id);
+    let shmp = *ctx.framework().shard_manager;
+    let runner = shmp.lock().runners.get(ctx.discord().shard_id);
     ctx.say(&format!("The shard latency is {:?}", runner.latency)).await?;
     Ok(())
 }
