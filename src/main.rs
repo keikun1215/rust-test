@@ -1,8 +1,6 @@
 use dotenvy;
-use std::sync::Arc;
-use tokio::sync::Mutex;
 use poise::serenity_prelude as serenity;
-use serenity::http;
+use serenity::client::bridge::gateway::{ShardId, ShardManager};
 type Error = Box<dyn std::error::Error + Send + Sync>;
 type Context<'a> = poise::Context<'a, Data, Error>;
 // User data, which is stored and accessible in all command invocations
@@ -13,9 +11,24 @@ struct Data {}
 async fn ping(
     ctx: Context<'_>,
 ) -> Result<(), Error> {
-    let gateway = Arc::new(Mutex::new(serenity::http::client::Http.get_gateway().await?.url));
-    let png = gateway.latency().to_string();
-    ctx.say(png).await?;
+    let data = ctx.data.read().await;
+    let shard_manager = match data.get::<ShardManagerContainer>() {
+      Some(v) => v,
+      None => {
+        ctx.say("Some problem occurred").await?;
+        return Ok(());
+      }
+    };
+    let manager = shard_manager.lock().await;
+    let runners = manager.runners.lock().await;
+    let runner = match runners.get(&ShardId(ctx.shard_id)) {
+      Some(runner) => runner,
+      None => {
+        ctx.say("Some problem occurred").await?;
+        return Ok(());
+      },
+    };
+    ctx.say(&format!("🏓**Pong!**\nping:  {:?}", runner.latency)).await?;
     Ok(())
 }
 
