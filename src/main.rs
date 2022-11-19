@@ -1,16 +1,10 @@
 use std::sync::Arc;
 use dotenvy;
 use poise::serenity_prelude as serenity;
-use serenity::*;
 use tokio::sync::Mutex;
-use serenity::client::bridge::gateway::{ShardId, ShardManager};
 struct Data {}
 type Error = Box<dyn std::error::Error + Send + Sync>;
 type Context<'a> = poise::Context<'a, Data, Error>;
-struct ShardManagerContainer;
-impl TypeMapKey for ShardManagerContainer {
-    type Value = Arc<Mutex<ShardManager>>;
-}
 // User data, which is stored and accessible in all command invocations
 /// Displays your or another user's account creation date/
 
@@ -18,28 +12,7 @@ impl TypeMapKey for ShardManagerContainer {
 async fn ping(
     ctx: Context<'_>,
 ) -> Result<(), Error> {
-    let data = ctx.discord().data.read().await;
-    let shard_manager = match data.get::<ShardManagerContainer>() {
-        Some(v) => v,
-        None => {
-            ctx.say("An error occurred");
-            return Ok(());
-        },
-    };
-
-    let manager = shard_manager.lock().await;
-    let runners = manager.runners.lock().await;
-    // Shards are backed by a "shard runner" responsible for processing events
-    // over the shard, so we'll get the information about the shard runner for
-    // the shard this command was sent over.
-    let runner = match runners.get(&ShardId(ctx.shard_id)) {
-        Some(runner) => runner,
-        None => {
-            ctx.say("No shard found").await?;
-            return Ok(());
-        },
-    };
-
+    let runner = ctx.framework().shard_manager.runners.get(ctx.discord().shard_id)
     ctx.say(&format!("The shard latency is {:?}", runner.latency)).await?;
     Ok(())
 }
