@@ -1,11 +1,17 @@
 use dotenvy;
+use tokio::io::AsyncReadExt;
+use tokio::sync::Mutex;
+use std::sync::Arc;
 use poise::serenity_prelude as serenity;
-use serenity::client::bridge::gateway::{ShardId, ShardManager};
+use serenitypoise::serenity_prelude::client::bridge::gateway::{ShardId, ShardManager};
 type Error = Box<dyn std::error::Error + Send + Sync>;
 type Context<'a> = poise::Context<'a, Data, Error>;
 // User data, which is stored and accessible in all command invocations
 struct Data {}
-
+struct ShardManagerContainer;
+impl TypeMapKey for ShardManagerContainer {
+    type Value = Arc<Mutex<ShardManager>>;
+}
 /// Displays your or another user's account creation date
 #[poise::command(slash_command, prefix_command)]
 async fn ping(
