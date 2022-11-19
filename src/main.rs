@@ -3,7 +3,7 @@ use tokio::io::AsyncRead;
 use tokio::io::AsyncReadExt;
 use tokio::sync::Mutex;
 use std::sync::Arc;
-use poise::serenity_prelude as serenity;
+use poise::serenity_prelude::*;
 use poise::serenity_prelude::TypeMapKey;
 use poise::serenity_prelude::client::bridge::gateway::{ShardId, ShardManager};
 type Error = Box<dyn std::error::Error + Send + Sync>;
@@ -14,7 +14,6 @@ struct ShardManagerContainer;
 impl TypeMapKey for ShardManagerContainer {
     type Value = Arc<Mutex<ShardManager>>;
 }
-pub trait AsyncRead {}
 /// Displays your or another user's account creation date
 #[poise::command(slash_command, prefix_command)]
 async fn ping(
