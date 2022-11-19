@@ -4,9 +4,10 @@ use poise::framework::*;
 struct Data {}
 type Error = Box<dyn std::error::Error + Send + Sync>;
 type Context<'a> = poise::Context<'a, Data, Error>;
+type FB = FrameworkBuilder;
 // User data, which is stored and accessible in all command invocations
 /// Displays your or another user's account creation date/
-static fw: FrameworkBuilder<U, E> = poise::Framework::builder()
+static fw: FB = poise::Framework::builder()
         .options(poise::FrameworkOptions {
             commands: vec![ping(), addcmd()],
             ..Default::default()
