@@ -6,12 +6,12 @@ type Error = Box<dyn std::error::Error + Send + Sync>;
 type Context<'a> = poise::Context<'a, Data, Error>;
 // User data, which is stored and accessible in all command invocations
 /// Displays your or another user's account creation date/
-static fw: Framework<U, E> = Framework;
+static fw: Framework = Framework;
 #[poise::command(slash_command, prefix_command)]
 async fn ping(
     ctx: Context<'_>,
 ) -> Result<(), Error> {
-    let shard = Framework::shard_manager(fw).runners.get(ctx.discord().shard_id);
+    let shard = Framework.shard_manager(fw).runners.get(ctx.discord().shard_id);
     ctx.say(&format!("🏓**Pong!**\nping:  {:?}", shard.latency)).await?;
     Ok(())
 }
