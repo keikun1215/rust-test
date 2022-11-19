@@ -1,8 +1,7 @@
 use std::sync::Arc;
 use dotenvy;
 use poise::serenity_prelude as serenity;
-use poise::framework::*;
-use serenity::prelude::*;
+use serenity::*;
 use tokio::sync::Mutex;
 use serenity::client::bridge::gateway::{ShardId, ShardManager};
 struct Data {}
