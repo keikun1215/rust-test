@@ -11,7 +11,7 @@ struct Data {}
 async fn ping(
     ctx: Context<'_>,
 ) -> Result<(), Error> {
-    let data = ctx.data.read().await;
+    let data = ctx.data().read().await;
     let shard_manager = match data.get::<ShardManagerContainer>() {
       Some(v) => v,
       None => {
@@ -21,7 +21,7 @@ async fn ping(
     };
     let manager = shard_manager.lock().await;
     let runners = manager.runners.lock().await;
-    let runner = match runners.get(&ShardId(ctx.shard_id)) {
+    let runner = match runners.get(&ShardId(ctx.discord().shard_id)) {
       Some(runner) => runner,
       None => {
         ctx.say("Some problem occurred").await?;
