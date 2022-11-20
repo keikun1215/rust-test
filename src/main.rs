@@ -31,7 +31,7 @@ async fn svrinfo(
       Tier2 => "2",
       Tier3 => "3",
       Unknown => "?"
-    }
+    };
     for (k, v) in &ctx.guild().unwrap().members {
       &b_or_u.push(v.user.bot);
     }
