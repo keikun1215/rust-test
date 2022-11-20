@@ -25,12 +25,16 @@ async fn ping(
 async fn svrinfo(
     ctx: Context<'_>,
 ) -> Result<(), Error> {
+    let b_or_u = vec![];
+    for (k, v) in &*ctx.guild().members {
+      b_or_u.push(v.user.bot);
+    }
     let repdata = CreateReply()
     ctx.send(|cr| {
       cr.embed(|CreateEmbed| {
         CreateEmbed
           .title("Server information")
-          .field("")
+          .field("Members", format!("**Total**: {}\n**Bots**: {}\n**Users**: {}", ctx.guild.member_count, b_or_u.filter(|b| b).len(), b_or_u.filter(|b| !b).len()))
       })
     }).await?;
     Ok(())
