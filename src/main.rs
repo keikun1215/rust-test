@@ -28,11 +28,12 @@ async fn svrinfo(
     for (k, v) in &ctx.guild().unwrap().members {
       &b_or_u.push(v.user.bot);
     }
+    let mut bou2 = &b_or_u;
     ctx.send(|cr| {
       cr.embed(|CreateEmbed| {
         CreateEmbed
           .title("Server information")
-          .field("Members", format!("**Total**: {}\n**Bots**: {}\n**Users**: {}", &b_or_u.len(), &b_or_u.into_iter().filter(|b| *b).count(), &b_or_u.into_iter().filter(|b| !b).count()), true)
+          .field("Members", format!("**Total**: {}\n**Bots**: {}\n**Users**: {}", bou2.len(), bou2.into_iter().filter(|b| *b).count(), bou2.into_iter().filter(|b| !b).count()), true)
       })
     }).await?;
     Ok(())
