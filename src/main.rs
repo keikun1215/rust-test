@@ -27,15 +27,14 @@ async fn svrinfo(
     let mut b_or_u = vec![];
     for (k, v) in &ctx.guild().unwrap().members {
       &b_or_u.push(v.user.bot);
-      let dst: Vec<std::string::String> = b_or_u.iter().map(|x| x.to_string()).collect();
-      println!("{}\n{}", dst.join(" "), k);
     }
     let mut bou2 = &b_or_u;
     ctx.send(|cr| {
       cr.embed(|CreateEmbed| {
         CreateEmbed
           .title("Server information")
-          .field("Members", format!("**Total**: {}\n**Bots**: {}\n**Users**: {}", bou2.len(), bou2.into_iter().filter(|b| **b).count(), bou2.into_iter().filter(|b| !**b).count()), true)
+          .field("Members", format!("**👥Total**: {}\n**🤖Bots**: {}\n**👤Users**: {}", bou2.len(), bou2.into_iter().filter(|b| **b).count(), bou2.into_iter().filter(|b| !**b).count()), true)
+          .field("Server", format!("**🌏Region**: {}\n<:boost:1043830452655501402>Boost: {}"))
       })
     }).await?;
     Ok(())
