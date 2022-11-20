@@ -25,6 +25,13 @@ async fn svrinfo(
     ctx: Context<'_>,
 ) -> Result<(), Error> {
     let mut b_or_u = vec![];
+    let blevel = match &ctx.guild().unwrap().premium_tier {
+      Tier0 => "0",
+      Tier1 => "1",
+      Tier2 => "2",
+      Tier3 => "3",
+      Unknown => "?"
+    }
     for (k, v) in &ctx.guild().unwrap().members {
       &b_or_u.push(v.user.bot);
     }
@@ -34,7 +41,7 @@ async fn svrinfo(
         CreateEmbed
           .title("Server information")
           .field("Members", format!("**👥Total**: {}\n**🤖Bots**: {}\n**👤Users**: {}", bou2.len(), bou2.into_iter().filter(|b| **b).count(), bou2.into_iter().filter(|b| !**b).count()), true)
-          .field("Server", format!("**🌏Region**: {}\n<:boost:1043830452655501402>Boost: {}"))
+          .field("Server", format!("**🌏Region**: {}\n<:boost:1043830452655501402>**Boost**: `{}`\n<:id:1043845860175392768>**ID**: {}", &ctx.guild().unwrap().preferred_locale, blevel, &ctx.guild().unwrap().id.0), true)
       })
     }).await?;
     Ok(())
