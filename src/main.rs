@@ -1,7 +1,6 @@
-use std::sync::Arc;
 use dotenvy;
 use poise::serenity_prelude as serenity;
-use tokio::sync::Mutex;
+use poise::serenity_prelude::client::bridge::gateway::*;
 struct Data {}
 type Error = Box<dyn std::error::Error + Send + Sync>;
 type Context<'a> = poise::Context<'a, Data, Error>;
@@ -15,7 +14,7 @@ async fn ping(
     let shmp = *ctx.framework().shard_manager;
     let s1 = *shmp.lock().await;
     let s2 = s1.runners.lock().await;
-    let runner = s2.get(ctx.discord().shard_id);
+    let runner = s2.get(ShardId(ctx.discord().shard_id));
     //let runner = shmp2
     ctx.say(&format!("The shard latency is {:?}", runner.latency)).await?;
     Ok(())
