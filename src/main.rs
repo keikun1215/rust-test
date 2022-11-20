@@ -16,7 +16,7 @@ async fn ping(
     let s2 = s1.runners.lock().await;
     let runner = match s2.get(&ShardId(ctx.discord().shard_id)) {
       Some(v) => v,
-      None => None
+      None => ()
     };
     //let runner = shmp2
     ctx.say(&format!("The shard latency is {:?}", runner.latency)).await?;
