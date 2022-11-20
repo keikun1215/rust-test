@@ -25,14 +25,14 @@ async fn svrinfo(
     ctx: Context<'_>,
 ) -> Result<(), Error> {
     let b_or_u = vec![];
-    for (k, v) in &*ctx.guild().unwrap().members {
+    for (k, v) in &ctx.guild().unwrap().members {
       b_or_u.push(v.user.bot);
     }
     ctx.send(|cr| {
       cr.embed(|CreateEmbed| {
         CreateEmbed
           .title("Server information")
-          .field("Members", format!("**Total**: {}\n**Bots**: {}\n**Users**: {}", ctx.guild().unwrap().member_count, b_or_u.into_iter().filter(|b| b).len(), b_or_u.into_iter().filter(|b| !b).len()), true)
+          .field("Members", format!("**Total**: {}\n**Bots**: {}\n**Users**: {}", ctx.guild().unwrap().member_count, b_or_u.into_iter().filter(|b| b).count(), b_or_u.into_iter().filter(|b| !b).count()), true)
       })
     }).await?;
     Ok(())
