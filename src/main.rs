@@ -26,13 +26,13 @@ async fn svrinfo(
 ) -> Result<(), Error> {
     let mut b_or_u = vec![];
     for (k, v) in &ctx.guild().unwrap().members {
-      b_or_u.push(v.user.bot);
+      &b_or_u.push(v.user.bot);
     }
     ctx.send(|cr| {
       cr.embed(|CreateEmbed| {
         CreateEmbed
           .title("Server information")
-          .field("Members", format!("**Total**: {}\n**Bots**: {}\n**Users**: {}", ctx.guild().unwrap().member_count, &b_or_u.into_iter().filter(|b| *b).count(), &b_or_u.into_iter().filter(|b| !b).count()), true)
+          .field("Members", format!("**Total**: {}\n**Bots**: {}\n**Users**: {}", &b_or_u.count(), &b_or_u.into_iter().filter(|&b| *b).count(), &b_or_u.into_iter().filter(|&b| !b).count()), true)
       })
     }).await?;
     Ok(())
