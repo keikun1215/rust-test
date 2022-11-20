@@ -11,8 +11,8 @@ type Context<'a> = poise::Context<'a, Data, Error>;
 async fn ping(
     ctx: Context<'_>,
 ) -> Result<(), Error> {
-    let shmp = *ctx.framework().shard_manager;
-    let s1 = *shmp.lock().await;
+    let shmp = &*ctx.framework().shard_manager;
+    let s1 = &*shmp.lock().await;
     let s2 = s1.runners.lock().await;
     let runner = s2.get(&ShardId(ctx.discord().shard_id)).unwrap();
     //let runner = shmp2
