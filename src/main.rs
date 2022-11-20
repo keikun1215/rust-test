@@ -24,7 +24,7 @@ async fn ping(
 async fn svrinfo(
     ctx: Context<'_>,
 ) -> Result<(), Error> {
-    let b_or_u = vec![];
+    let mut b_or_u = vec![];
     for (k, v) in &ctx.guild().unwrap().members {
       b_or_u.push(v.user.bot);
     }
