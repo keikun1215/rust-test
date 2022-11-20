@@ -27,7 +27,8 @@ async fn svrinfo(
     let mut b_or_u = vec![];
     for (k, v) in &ctx.guild().unwrap().members {
       &b_or_u.push(v.user.bot);
-      println!("{}\n{}", &b_or_u.iter().map(|x| x.to_string()).collect::<B>().join(" "), k);
+      let dst: Vec<String> = &b_or_u.iter().map(|x| x.to_string()).collect();
+      println!("{}\n{}", dst.join(" "), k);
     }
     let mut bou2 = &b_or_u;
     ctx.send(|cr| {
