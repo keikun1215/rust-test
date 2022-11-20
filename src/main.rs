@@ -1,22 +1,38 @@
 use dotenvy;
 use poise::serenity_prelude as serenity;
 use poise::serenity_prelude::ShardId;
+use poise::reply::CreateReply
 struct Data {}
 type Error = Box<dyn std::error::Error + Send + Sync>;
 type Context<'a> = poise::Context<'a, Data, Error>;
-// User data, which is stored and accessible in all command invocations
 
 /// Send gateway latency
 #[poise::command(slash_command, prefix_command)]
 async fn ping(
     ctx: Context<'_>,
 ) -> Result<(), Error> {
-    let shmp = &*ctx.framework().shard_manager;
+    let shmp = &*ctx.framework().shard_manager; //Get shard manager
     let s1 = &*shmp.lock().await;
-    let s2 = s1.runners.lock().await;
-    let runner = s2.get(&ShardId(ctx.discord().shard_id)).unwrap();
-    let ping = runner.latency.unwrap();
-    ctx.say(&format!("🏓**Pong!**\nping: {:?}", ping)).await?;
+    let s2 = s1.runners.lock().await; //Get shard runners
+    let runner = s2.get(&ShardId(ctx.discord().shard_id)).unwrap(); //Get runner
+    let ping = runner.latency.unwrap(); //Get runner latency
+    ctx.say(&format!("🏓**Pong!**\nping: {:?}", ping)).await?; //Send runner latency
+    Ok(())
+}
+
+/// Send server info
+#[poise::command(slash_command, prefix_command)]
+async fn svrinfo(
+    ctx: Context<'_>,
+) -> Result<(), Error> {
+    let repdata = CreateReply()
+    ctx.send(|cr| {
+      cr.embed(|CreateEmbed| {
+        CreateEmbed
+          .title("Server information")
+          .field("")
+      })
+    }).await?;
     Ok(())
 }
 
