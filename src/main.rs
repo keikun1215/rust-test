@@ -1,7 +1,6 @@
 use dotenvy;
 use poise::serenity_prelude as serenity;
 use poise::serenity_prelude::ShardId;
-use poise::reply::CreateReply
 struct Data {}
 type Error = Box<dyn std::error::Error + Send + Sync>;
 type Context<'a> = poise::Context<'a, Data, Error>;
@@ -29,7 +28,6 @@ async fn svrinfo(
     for (k, v) in &*ctx.guild().members {
       b_or_u.push(v.user.bot);
     }
-    let repdata = CreateReply()
     ctx.send(|cr| {
       cr.embed(|CreateEmbed| {
         CreateEmbed
