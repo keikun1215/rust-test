@@ -50,7 +50,7 @@ async fn main() {
     //let token: String = dotenvy::var("token").unwrap();
     let fw = poise::Framework::builder()
         .options(poise::FrameworkOptions {
-            commands: vec![ping(), addcmd()],
+            commands: vec![ping(), svrinfo(), addcmd()],
             ..Default::default()
         })
         .token(dotenvy::var("token").unwrap())
