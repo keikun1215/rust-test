@@ -5,8 +5,8 @@ struct Data {}
 type Error = Box<dyn std::error::Error + Send + Sync>;
 type Context<'a> = poise::Context<'a, Data, Error>;
 // User data, which is stored and accessible in all command invocations
-/// Displays your or another user's account creation date/
 
+/// Send gateway latency
 #[poise::command(slash_command, prefix_command)]
 async fn ping(
     ctx: Context<'_>,
@@ -15,8 +15,11 @@ async fn ping(
     let s1 = &*shmp.lock().await;
     let s2 = s1.runners.lock().await;
     let runner = s2.get(&ShardId(ctx.discord().shard_id)).unwrap();
-    //let runner = shmp2
-    ctx.say(&format!("The shard latency is {:?}", runner.latency)).await?;
+    let ping = match runner.latency {
+      Some(v) => v,
+      None => None
+    };
+    ctx.say(&format!("🏓**Pong!**\nping: {:?}", ping)).await?;
     Ok(())
 }
 
