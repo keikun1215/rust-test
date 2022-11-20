@@ -15,10 +15,7 @@ async fn ping(
     let s1 = &*shmp.lock().await;
     let s2 = s1.runners.lock().await;
     let runner = s2.get(&ShardId(ctx.discord().shard_id)).unwrap();
-    let ping = match runner.latency {
-      Some(v) => v,
-      None => None
-    };
+    let ping = runner.latency.unwrap();
     ctx.say(&format!("🏓**Pong!**\nping: {:?}", ping)).await?;
     Ok(())
 }
