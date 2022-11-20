@@ -1,6 +1,6 @@
 use dotenvy;
 use poise::serenity_prelude as serenity;
-use poise::serenity_prelude::client::bridge::gateway::*;
+use poise::serenity_prelude::ShardId;
 struct Data {}
 type Error = Box<dyn std::error::Error + Send + Sync>;
 type Context<'a> = poise::Context<'a, Data, Error>;
