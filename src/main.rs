@@ -54,7 +54,7 @@ async fn main() {
             ..Default::default()
         })
         .token(dotenvy::var("token").unwrap())
-        .intents(serenity::GatewayIntents::non_privileged())
+        .intents(serenity::GatewayIntents::privileged())
         .user_data_setup(move |_ctx, _ready, _framework| Box::pin(async move { Ok(Data {}) }));
     fw.run().await.unwrap();
 }
